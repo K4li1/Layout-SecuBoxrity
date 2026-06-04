@@ -7,18 +7,49 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Dependency directories
+node_modules/
+jspm_packages/
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
+# Build and production outputs
+dist/
+dist-ssr/
+build/
+out/
+
+# Local env files (covers .env, .env.local, .env.development.local, etc.)
+.env
+.env.*
+!.env.example
+
+# IDEs and Editors
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# VS Code settings adjustment (fixes the exception bug)
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local hosting and deployment folders
+.netlify/
+.vercel/
+.next/
+.nuxt/
+
+# Deno lock file (gerado automaticamente)
+deno.lock
+
+# Pastas locais do Netlify (caso geradas no build)
+.netlify/
+netlify/.netlify/

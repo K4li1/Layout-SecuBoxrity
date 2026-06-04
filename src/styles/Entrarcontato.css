@@ -48,10 +48,18 @@
 }
 
 .botao {
-  background-color: var(--azul-claro);
+  background-color: var(--secondary-color);
+  border: solid 3px var(--cor-botao);
   width: var(--btn-width);
   height: var(--btn-height);
   border-radius: var(--btn-radius);
+  color: var(--btn-radius);
+}
+
+.botao:hover {
+  background-color: var(--text-color);
+  border: solid 3px var(--text-color);
+  color: var(--light-text-color);
 }
 
 input {
@@ -59,6 +67,16 @@ input {
   height: var(--height-custom);
   background-color: var(--light-gray);
   padding: 10px;
+  border: solid 3px var(--text-color);
+  color: var(--text-color);
+}
+
+input:focus{
+  outline: none;
+}
+
+input::placeholder{
+  color: var(--text-color);
 }
 
 @media (width < 1280px) {
@@ -80,12 +98,12 @@ input {
   .textolongo {
     display: none;
   }
-  
+
   .textocurto {
     display: inline;
   }
 
-.placeholder_desketop {
+  .placeholder_desketop {
     display: none;
   }
 
