@@ -71,20 +71,15 @@ input {
   color: var(--text-color);
 }
 
-input:focus{
+input:focus {
   outline: none;
 }
 
-input::placeholder{
+input::placeholder {
   color: var(--text-color);
 }
 
-@media (width < 1280px) {
-  .comunicado > input {
-    width: 324px;
-    height: 58px;
-  }
-}
+
 
 .textocurto {
   display: none;
@@ -95,6 +90,18 @@ input::placeholder{
 }
 
 @media (max-width: 1280px) {
+  .comunicado > input {
+    width: 600px;
+    height: 58px;
+  }
+
+  @media (max-width: 720px) {
+    .comunicado > input {
+    width: 324px;
+    height: 58px;
+  }
+  }
+
   .textolongo {
     display: none;
   }

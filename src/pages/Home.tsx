@@ -33,7 +33,7 @@ import "../styles/Footer.css";
 
 export default function Home() {
 
-  let TextoplaceDesketop = "Motivo do contato. Ex: Gostei muito do produto X, poderia me enviar um orçamento?";
+  let TextoplaceDesketop = "Motivo do contato. Ex: Gostaria de saber como funciona o rastreamento de encomendas?";
   let TextoplaceMobile = "Motivo do contato. Ex qual o valor de x?";
 
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -407,10 +407,16 @@ export default function Home() {
         <section className="Redesociais">
           <div className="logomarca">
             <img src="src/assets/logo.svg" alt="Logo securitybox" />
-            <div>
-              <img src={Instagram} alt="Instagram" />
-              <img src={Facebook} alt="Facebook" />
-              <img src={Youtube} alt="Youtube" />
+            <div className="redes">
+              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                <img src={Instagram} alt="Instagram" />
+              </a>
+              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+                <img src={Facebook} alt="Facebook" />
+              </a>
+              <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">
+                <img src={Youtube} alt="Youtube" />
+              </a>
             </div>
           </div>
 
