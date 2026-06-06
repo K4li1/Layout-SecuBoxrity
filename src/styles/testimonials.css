@@ -75,10 +75,10 @@
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-133%);
+    transform: translateX(-155%);
   }
 }
-@media (width >= 580px) {
+@media (width >= 780px) {
   #testimonials {
     gap: 5rem;
     align-items: center;
