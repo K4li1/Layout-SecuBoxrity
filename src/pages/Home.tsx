@@ -36,7 +36,26 @@ export default function Home() {
   let TextoplaceDesketop = "Motivo do contato. Ex: Gostaria de saber como funciona o rastreamento de encomendas?";
   let TextoplaceMobile = "Motivo do contato. Ex qual o valor de x?";
 
+  const [email, setEmail] = useState('');
+  const [textoDesktop, setTextoDesktop] = useState('');
+  const [textoMobile, setTextoMobile] = useState('');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+
+  const sendContactEmail = async () => {
+    const response = await fetch("/.netlify/functions/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        message: textoDesktop || textoMobile,
+      }),
+    });
+
+    if (!response.ok) {
+      const body = await response.json().catch(() => ({}));
+      throw new Error(body.error ?? "Erro ao enviar mensagem.");
+    }
+  };
 
   useEffect(() => {
     const html = document.querySelector("html");
@@ -44,6 +63,7 @@ export default function Home() {
       html.style.overflow = showMobileMenu ? "hidden" : "auto";
     }
   }, [showMobileMenu]);
+
 
   return (
     <main>
@@ -307,15 +327,37 @@ export default function Home() {
           <p className="textocurto">Entre em contato, estamos dispostos a <br /> tirar qualquer dúvida😎.</p>
         </header>
 
-        <form className="comunicado">
-          <input type="text" placeholder="Seu melhor Email" />
 
-          <input className="placeholder_desketop" type="text" placeholder={TextoplaceDesketop} />
-          <input className="placeholder_mobile" type="text" placeholder={TextoplaceMobile} />
+        <form className="comunicado" onSubmit={sendContactEmail}>
+
+          <input
+            type="email"
+            placeholder="Seu melhor Email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <input
+            className="placeholder_desketop"
+            type="text"
+            required
+            placeholder={TextoplaceDesketop}
+            value={textoDesktop}
+            onChange={(e) => setTextoDesktop(e.target.value)}
+          />
+
+          <input
+            className="placeholder_mobile"
+            type="text"
+            required
+            placeholder={TextoplaceMobile}
+            value={textoMobile}
+            onChange={(e) => setTextoMobile(e.target.value)}
+          />
 
           <button className="botao" type="submit">Enviar</button>
         </form>
-
       </section>
 
       {/* Planos */}
@@ -377,15 +419,15 @@ export default function Home() {
             </span>
           </div>
 
-           {/* Plano Medio */}
-           <div className="pricing-card">
+          {/* Plano Medio */}
+          <div className="pricing-card">
             <span className="plan">
               <h3>Medio</h3>
               <p>Você tem direito a usar nosso aplicativo de localizador de encomendas e reconhecimento por digital na embalagem</p>
             </span>
             <span className="price">
-            <h2>R$ 30,00</h2>
-            <p>/mês</p>
+              <h2>R$ 30,00</h2>
+              <p>/mês</p>
             </span>
             <Button text="Pedir agora" secondary key="free" />
             <span className="hr" />

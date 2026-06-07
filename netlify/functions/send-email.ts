@@ -9,15 +9,15 @@ interface ContactPayload {
 const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN ?? "";
 
 const corsHeaders = (origin: string) => ({
-  "Access-Control-Allow-Origin": ALLOWED_ORIGIN || origin, //colocar no lugar de ALLOWED_ORIGIN || origin -> minha netlify -> "minhaurl.netlify.app"
+  "Access-Control-Allow-Origin": ALLOWED_ORIGIN || origin,
   "Access-Control-Allow-Headers": "Content-Type",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 });
 
 const handler: Handler = async (event: HandlerEvent) => {
   const origin = event.headers["origin"] ?? "";
-  
-    if (event.httpMethod === "OPTIONS") {
+
+  if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 204,
       headers: corsHeaders(origin),
@@ -33,10 +33,7 @@ const handler: Handler = async (event: HandlerEvent) => {
     };
   }
 
-
-
-    let payload: ContactPayload;
-
+  let payload: ContactPayload;
   try {
     payload = JSON.parse(event.body ?? "{}");
   } catch {
@@ -66,7 +63,7 @@ const handler: Handler = async (event: HandlerEvent) => {
     };
   }
 
-    const transporter = nodemailer.createTransport({
+  const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT ?? 587),
     secure: process.env.SMTP_SECURE === "true",
@@ -76,16 +73,16 @@ const handler: Handler = async (event: HandlerEvent) => {
     },
   });
 
-    try {
+  try {
     await transporter.sendMail({
-      from: `<${process.env.SMTP_USER}>`,
+      from: `SecurityBox <${process.env.SMTP_USER}>`,
       replyTo: email,
       to: process.env.CONTACT_EMAIL,
-      subject: "[Dona Frost] Nova mensagem Landing Page",
-      text: message,
+      subject: "[SecurityBox] Nova mensagem - Landing Page",
+      text: `E-mail do remetente: ${email}\n\nMensagem:\n${message}`,
       html: `
-        <h2>Nova mensagem de contato</h2>
-        <p><strong>E-mail:</strong> ${email}</p>
+        <h2>Nova mensagem de contato - SecurityBox</h2>
+        <p><strong>E-mail do remetente:</strong> ${email}</p>
         <p><strong>Mensagem:</strong></p>
         <p>${message.replace(/\n/g, "<br>")}</p>
       `,
@@ -104,8 +101,6 @@ const handler: Handler = async (event: HandlerEvent) => {
       body: JSON.stringify({ error: "Falha ao enviar o e-mail. Tente novamente mais tarde." }),
     };
   }
-
-
 };
 
 export { handler };
