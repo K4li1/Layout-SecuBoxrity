@@ -41,7 +41,9 @@ export default function Home() {
   const [textoMobile, setTextoMobile] = useState('');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
-  const sendContactEmail = async () => {
+  async function sendContactEmail(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
     const response = await fetch("/.netlify/functions/send-email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -55,7 +57,12 @@ export default function Home() {
       const body = await response.json().catch(() => ({}));
       throw new Error(body.error ?? "Erro ao enviar mensagem.");
     }
-  };
+
+    console.log("Enviado com sucesso!");
+    setEmail("");
+    setTextoDesktop("");
+    setTextoMobile("");
+  }
 
   useEffect(() => {
     const html = document.querySelector("html");
