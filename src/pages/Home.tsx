@@ -312,7 +312,7 @@ export default function Home() {
               imagem={Julius}
               nome="Julius"
               quantidadEstrelas={3}
-              testemunho="Minhas encomendas nunca mais foram roubadas, pelo golpe baixo."
+              testemunho="Minhas encomendas nunca mais foram roubadas pelo golpe baixo."
             />
 
 
@@ -336,7 +336,7 @@ export default function Home() {
               imagem={Seu_madruga}
               nome="Seu Madruga"
               quantidadEstrelas={4}
-              testemunho="Que bom que minhas encomendas são entregues na minha casa e não na da Dona Florinda, realmente o localizador de encomenda é muito útil. Isto se outra pessoa pegar minha a minha encomenda por engano."
+              testemunho="Que bom que minhas encomendas são entregues na minha casa e não na da Dona Florinda, realmente o localizador de encomenda é muito útil. Isto se outra pessoa pegar a minha encomenda por engano."
             />
 
             <TestimonialCard
