@@ -12,6 +12,8 @@ const Recaptcha = forwardRef<any, RecaptchaProps>(
         ref={ref}
         sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
         onChange={onChange}
+        onExpired={() => onChange(null)}
+        onErrored={() => onChange(null)}
       />
     );
   }

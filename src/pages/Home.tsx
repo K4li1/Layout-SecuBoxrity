@@ -41,8 +41,7 @@ export default function Home() {
   const [textoDesktop, setTextoDesktop] = useState('');
   const [textoMobile, setTextoMobile] = useState('');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [isChallengeCompleted, setChallengeCompleted] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const [mostrarAnimacao, setMostrarAnimacao] = useState(false);
   const recaptchaRef = useRef<any>(null);
@@ -50,7 +49,8 @@ export default function Home() {
   async function sendContactEmail(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (!isChallengeCompleted) {
+    if (!captchaToken) {
+      toast.error("Confirme o reCAPTCHA antes de enviar.");
       return;
     }
 
@@ -61,36 +61,38 @@ export default function Home() {
       return;
     }
 
-    const response = await fetch("/.netlify/functions/send-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        message: textoDesktop || textoMobile,
-        captchaToken,
-      }),
-    });
+    try {
+      const response = await fetch("/.netlify/functions/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          message: mensagem,
+          captchaToken,
+        }),
+      });
 
-    if (!response.ok) {
       const body = await response.json().catch(() => ({}));
-      throw new Error(body.error ?? "Erro ao enviar mensagem.");
+
+      if (!response.ok) {
+        throw new Error(body.error ?? "Erro ao enviar mensagem.");
+      }
+
+      toast.success("E-mail enviado com sucesso!");
+
+      setMostrarAnimacao(true);
+      setTimeout(() => setMostrarAnimacao(false), 5000);
+
+      setEmail("");
+      setTextoDesktop("");
+      setTextoMobile("");
+      setCaptchaToken(null);
+      recaptchaRef.current?.reset();
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "Não foi possível enviar."
+      );
     }
-
-    console.log("Enviado com sucesso!");
-    toast.success("E-mail enviado com sucesso!");
-
-    //animacao da caixa
-    setMostrarAnimacao(true);
-    setTimeout(() => {
-      setMostrarAnimacao(false);
-    }, 5000);
-
-    setEmail("");
-    setTextoDesktop("");
-    setTextoMobile("");
-    setChallengeCompleted(false);
-    setCaptchaToken("");
-    recaptchaRef.current?.reset();
   }
 
   useEffect(() => {
@@ -101,14 +103,7 @@ export default function Home() {
   }, [showMobileMenu]);
 
   function handleCompleteChallenge(token: string | null) {
-    if (!token) {
-      setChallengeCompleted(false);
-      setCaptchaToken("");
-      return;
-    }
-
     setCaptchaToken(token);
-    setChallengeCompleted(true);
   }
 
   return (
